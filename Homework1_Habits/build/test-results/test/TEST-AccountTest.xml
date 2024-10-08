@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="AccountTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2024-10-08T19:20:09" hostname="DESKTOP-4K11QI4" time="0.073">
+  <properties/>
+  <testcase name="addDuplicateEmail()" classname="AccountTest" time="0.027"/>
+  <testcase name="deleteAccount()" classname="AccountTest" time="0.002"/>
+  <testcase name="updateNonExistentAccount()" classname="AccountTest" time="0.001"/>
+  <testcase name="getByName()" classname="AccountTest" time="0.004"/>
+  <testcase name="addAccount()" classname="AccountTest" time="0.001"/>
+  <testcase name="printAllAccounts()" classname="AccountTest" time="0.02"/>
+  <testcase name="getByEmail()" classname="AccountTest" time="0.001"/>
+  <testcase name="emailExists()" classname="AccountTest" time="0.001"/>
+  <testcase name="updateAccount()" classname="AccountTest" time="0.0"/>
+  <testcase name="deleteNonExistentAccount()" classname="AccountTest" time="0.001"/>
+  <system-out><![CDATA[Account{name='Admin', email='admin@gmail.com', password='adminpass', role=Admin}
+Account{name='Name1', email='mail1@gmail.com', password='password1', role=Person}
+Account{name='Name2', email='mail2@gmail.com', password='password2', role=Person}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
