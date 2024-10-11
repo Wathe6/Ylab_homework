@@ -2,31 +2,25 @@ package io.envoi.model;
 
 import io.envoi.enums.Roles;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Account
+public class Account implements Serializable
 {
-    private String name;
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    //Id
     private String email;
     private String password;
     private Roles role;
 
-    public Account(String name, String email, String password, Roles role)
+    public Account(String email, String password, Roles role)
     {
-        setName(name);
         setEmail(email);
         setPassword(password);
         setRole(role);
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = Objects.requireNonNull(name);
     }
 
     public String getEmail()
@@ -71,15 +65,14 @@ public class Account
     @Override
     public int hashCode()
     {
-        return Objects.hash(name, email, password);
+        return Objects.hash(email, password);
     }
 
     @Override
     public String toString()
     {
         return "Account{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';

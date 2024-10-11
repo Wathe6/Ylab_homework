@@ -1,3 +1,0 @@
-RAccount{name='Admin', email='admin@gmail.com', password='adminpass', role=Admin}
-SAccount{name='Name1', email='mail1@gmail.com', password='password1', role=Person}
-SAccount{name='Name2', email='mail2@gmail.com', password='password2', role=Person}
