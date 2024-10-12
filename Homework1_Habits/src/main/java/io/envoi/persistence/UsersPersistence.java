@@ -16,10 +16,10 @@ public class UsersPersistence
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH)))
         {
             oos.writeObject(users.values().stream().toList());
-            System.out.println("Users successfully saved to file.");
+            System.out.println("Профили успешно сохранены.");
         } catch (IOException e)
         {
-            System.err.println("Error saving users to file: " + e.getMessage());
+            System.err.println("Ошибка при сохранении профилей: " + e.getMessage());
         }
     }
 
@@ -29,7 +29,7 @@ public class UsersPersistence
         File file = new File(FILE_PATH);
         if (!file.exists())
         {
-            System.out.println("No users file found. Starting with an empty list.");
+            System.out.println("Файл с профилями не найден.");
             return new HashMap<>();
         }
 
@@ -41,7 +41,7 @@ public class UsersPersistence
             return userMap;
         } catch (IOException | ClassNotFoundException e)
         {
-            System.err.println("Error loading users from file: " + e.getMessage());
+            System.err.println("Ошибка при чтении профилей: " + e.getMessage());
             return new HashMap<>();
         }
     }

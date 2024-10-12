@@ -16,10 +16,10 @@ public class AccountPersistence
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH)))
         {
             oos.writeObject(accounts.values().stream().toList());
-            System.out.println("Accounts successfully saved to file.");
+            System.out.println("Аккаунты успешно сохранены.");
         } catch (IOException e)
         {
-            System.err.println("Error saving accounts to file: " + e.getMessage());
+            System.err.println("Ошибка при сохранении аккаунтов: " + e.getMessage());
         }
     }
 
@@ -29,7 +29,7 @@ public class AccountPersistence
         File file = new File(FILE_PATH);
         if (!file.exists())
         {
-            System.out.println("No accounts file found. Starting with an empty list.");
+            System.out.println("Файл с аккаунтами не найден.");
             return new HashMap<>();
         }
 
@@ -41,7 +41,7 @@ public class AccountPersistence
             return accountMap;
         } catch (IOException | ClassNotFoundException e)
         {
-            System.err.println("Error loading accounts from file: " + e.getMessage());
+            System.err.println("Ошибка при чтении аккаунтов " + e.getMessage());
             return new HashMap<>();
         }
     }

@@ -47,7 +47,6 @@ public class Habit implements Serializable
     {
         return statistic.entrySet().stream().reduce((first, second) -> second).orElse(null).getValue();
     }
-
     public boolean canBeChecked()
     {
         LocalDate today = LocalDate.now();
