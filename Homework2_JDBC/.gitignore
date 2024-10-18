@@ -11,3 +11,6 @@ gradlew.bat
 
 # Ignore Gradle settings file
 settings.gradle
+
+# Ignore the Homework1_Habits folder
+../Homework1_Habits/
