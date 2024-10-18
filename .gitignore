@@ -1,6 +1,7 @@
 # Ignore Gradle build folder
 .gradle/
 build/
+gradle/
 
 # Ignore IntelliJ IDEA project files
 .idea/
@@ -11,6 +12,3 @@ gradlew.bat
 
 # Ignore Gradle settings file
 settings.gradle
-
-# Ignore the Homework2_JDBC folder
-../Homework2_JDBC/
