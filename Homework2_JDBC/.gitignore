@@ -1,0 +1,13 @@
+# Ignore Gradle build folder
+.gradle/
+build/
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore Gradle wrapper files
+gradlew
+gradlew.bat
+
+# Ignore Gradle settings file
+settings.gradle
