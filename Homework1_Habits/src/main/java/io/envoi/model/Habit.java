@@ -6,9 +6,12 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.LinkedHashMap;
 import java.util.Objects;
-
-public class Habit implements Serializable
-{
+/**
+ * Habit is a model for users habit - its name, description, period and statistic. Period is a certain number of days.
+ * Statistic is a sorted list of dates, when the habit was supposed to be marked, with statuses. If Boolean is false - the habit wasn't check, if true - was.
+ * If null, then it must be checked today.
+ * */
+public class Habit implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -17,38 +20,30 @@ public class Habit implements Serializable
     private Period period;
     private LinkedHashMap<LocalDate, Boolean> statistic;
 
-    public Habit(String name, String description, Period period, LinkedHashMap<LocalDate, Boolean> statistic)
-    {
+    public Habit(String name, String description, Period period, LinkedHashMap<LocalDate, Boolean> statistic) {
         setName(name);
         setDescription(description);
         setPeriod(period);
         setStatistic(statistic);
     }
-    public Habit(String name, String description, Period period)
-    {
+    public Habit(String name, String description, Period period) {
         setName(name);
         setDescription(description);
         setPeriod(period);
         statistic = new LinkedHashMap<>();
         statistic.put(LocalDate.now(), null);
     }
-
-    public void check()
-    {
+    public void check() {
         LocalDate today = LocalDate.now();
         statistic.put(today, true);
     }
-    private LocalDate getLastDate()
-    {
+    private LocalDate getLastDate() {
         return statistic.keySet().stream().reduce((first, second) -> second).orElse(null);
     }
-
-    public Boolean getLastStatistic()
-    {
+    public Boolean getLastStatistic() {
         return statistic.entrySet().stream().reduce((first, second) -> second).orElse(null).getValue();
     }
-    public boolean canBeChecked()
-    {
+    public boolean canBeChecked() {
         LocalDate today = LocalDate.now();
         LocalDate lastDate = getLastDate();
 
@@ -66,58 +61,39 @@ public class Habit implements Serializable
 
         return getLastStatistic() == null;
     }
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
-
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
-
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
-
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
-
-    public Period getPeriod()
-    {
+    public Period getPeriod() {
         return period;
     }
-
-    public void setPeriod(Period period)
-    {
+    public void setPeriod(Period period) {
         this.period = period;
     }
-
-    public LinkedHashMap<LocalDate, Boolean> getStatistic()
-    {
+    public LinkedHashMap<LocalDate, Boolean> getStatistic() {
         return statistic;
     }
-
-    public void setStatistic(LinkedHashMap<LocalDate, Boolean> statistic)
-    {
+    public void setStatistic(LinkedHashMap<LocalDate, Boolean> statistic) {
         this.statistic = statistic;
     }
-
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Habit habit = (Habit) o;
         return name.equals(habit.name);
     }
-
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(name);
     }
 }

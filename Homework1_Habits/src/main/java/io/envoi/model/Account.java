@@ -5,9 +5,10 @@ import io.envoi.enums.Roles;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
-
-public class Account implements Serializable
-{
+/**
+ * Account is a model for users roles and credentials.
+ * */
+public class Account implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -16,46 +17,38 @@ public class Account implements Serializable
     private String password;
     private Roles role;
 
-    public Account(String email, String password, Roles role)
-    {
+    public Account(String email, String password, Roles role) {
         setEmail(email);
         setPassword(password);
         setRole(role);
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = Objects.requireNonNull(email);
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = Objects.requireNonNull(password);
     }
 
-    public Roles getRole()
-    {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(Roles role)
-    {
+    public void setRole(Roles role) {
         this.role = Objects.requireNonNull(role);
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
@@ -63,14 +56,12 @@ public class Account implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(email, password);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Account{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +

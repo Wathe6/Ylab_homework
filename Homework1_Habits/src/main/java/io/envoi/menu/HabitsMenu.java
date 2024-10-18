@@ -8,10 +8,13 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.envoi.Main.*;
+import static io.envoi.menu.MainMenu.inputInt;
+import static io.envoi.menu.MainMenu.inputLine;
 
-public class HabitsMenu
-{
+/**
+ * Contains habits menu - check, add, change and delete logic. For statistic menu see @StatisticMenu.
+ * */
+public class HabitsMenu {
     public User myUser;
     public HabitsMenu(User myUser)
     {
@@ -21,10 +24,8 @@ public class HabitsMenu
     {
         return myUser;
     }
-    public void habitsMenu()
-    {
-        while (true)
-        {
+    public void habitsMenu() {
+        while (true) {
             System.out.println("""
                     Введите цифру, чтобы продолжить:
                     0. Выход.
@@ -35,9 +36,10 @@ public class HabitsMenu
 
             int input = inputInt("Введите номер операции: ", 0, 4);
 
-            switch (input)
-            {
-                case 0 -> {return;}
+            switch (input) {
+                case 0 -> {
+                    return;
+                }
                 case 1 -> habitsCheckMenu();
                 case 2 -> habitsAddMenu();
                 case 3 -> habitsChangeMenu();
@@ -47,10 +49,8 @@ public class HabitsMenu
         }
     }
 
-    public void habitsCheckMenu()
-    {
-        if (myUser.getHabits().isEmpty())
-        {
+    public void habitsCheckMenu() {
+        if (myUser.getHabits().isEmpty()) {
             System.out.println("У вас нет привычек!");
             return;
         }
@@ -58,44 +58,35 @@ public class HabitsMenu
         List<Habit> canBeChecked = new ArrayList<>();
         List<Habit> cannotBeChecked = new ArrayList<>();
         //Разделяем привычки
-        myUser.getHabits().forEach((habitName, habit) ->
-        {
-            if (habit.canBeChecked())
-            {
+        myUser.getHabits().forEach((habitName, habit) -> {
+            if (habit.canBeChecked()) {
                 canBeChecked.add(habit);
-            } else
-            {
+            } else {
                 cannotBeChecked.add(habit);
             }
         });
 
-        do
-        {
+        do {
             System.out.println("Список привычек, которые можно отметить:\n0. Выход.");
             int i = 0;
-            for (Habit habit : canBeChecked)
-            {
+            for (Habit habit : canBeChecked) {
                 i++;
                 System.out.println(i + ". " + habit.getName());
             }
             System.out.println("\nСписок привычек, которые нельзя отметить:");
-            for (Habit habit : cannotBeChecked)
-            {
+            for (Habit habit : cannotBeChecked) {
                 LocalDate lastDate = habit.getStatistic().keySet().stream().max(LocalDate::compareTo).orElse(LocalDate.now());
                 System.out.println(habit.getName() + " - " + lastDate.plus(habit.getPeriod()));
             }
 
-            while (true)
-            {
+            while (true) {
                 int input = inputInt("\nВведите номер привычки:", 0, i);
 
-                if (input == 0)
-                {
+                if (input == 0) {
                     return;
                 }
 
-                if (input > i || input < 0)
-                {
+                if (input > i || input < 0) {
                     System.out.println("Привычка с таким номером не найдена. Попробуйте снова.");
                     continue;
                 }
@@ -108,16 +99,13 @@ public class HabitsMenu
             }
         } while (true);
     }
-    public void habitsAddMenu()
-    {
+    public void habitsAddMenu() {
         String name, description;
         Period period;
-        while (true)
-        {
+        while (true) {
             name = inputLine("Введите название: ");
 
-            if (myUser.getHabits().containsKey(name))
-            {
+            if (myUser.getHabits().containsKey(name)) {
                 System.out.println("Привычка с таким именем уже существует!");
                 continue;
             }
@@ -127,24 +115,20 @@ public class HabitsMenu
             int input = inputInt("Введите период в днях: ", 1, 30);
             period = Period.ofDays(input);
 
-            if (myUser.addHabit(new Habit(name, description, period)))
-            {
+            if (myUser.addHabit(new Habit(name, description, period))) {
                 System.out.println("Привычка успешно добавлена!");
                 break;
             }
             System.out.println("Привычка не было добавлена, попробуйте ещё раз.");
         }
     }
-    public void habitsChangeMenu()
-    {
+    public void habitsChangeMenu() {
         String name, description;
         Period period;
-        while (true)
-        {
+        while (true) {
             name = inputLine("Введите название: ");
 
-            if (!myUser.getHabits().containsKey(name))
-            {
+            if (!myUser.getHabits().containsKey(name)) {
                 System.out.println("Привычки с таким именем не существует!");
                 continue;
             }
@@ -159,8 +143,7 @@ public class HabitsMenu
             habit.setPeriod(period);
 
             myUser.getHabits().remove(name);
-            if (myUser.addHabit(habit))
-            {
+            if (myUser.addHabit(habit)) {
                 System.out.println("Привычка успешно изменена!");
                 break;
             }
@@ -168,14 +151,12 @@ public class HabitsMenu
         }
 
     }
-    public void habitsDeleteMenu()
-    {
+    public void habitsDeleteMenu() {
         String name;
 
         name = inputLine("Введите название: ");
 
-        if (!myUser.getHabits().containsKey(name))
-        {
+        if (!myUser.getHabits().containsKey(name)) {
             System.out.println("Привычки с таким именем не существует!");
             return;
         }

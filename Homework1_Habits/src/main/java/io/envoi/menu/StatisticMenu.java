@@ -9,10 +9,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static io.envoi.Main.*;
+import static io.envoi.menu.MainMenu.*;
 
-public class StatisticMenu
-{
+/**
+ * Contains statistic menu logic - list of all habits, list of habits by status (checked, lost, must be marked today),
+ * list of habits by date, streak of checked habits, all statistic about certain habit and % amount of lost checks.
+ * */
+public class StatisticMenu {
     public User myUser;
     public StatisticMenu(User myUser)
     {
@@ -22,10 +25,8 @@ public class StatisticMenu
     {
         return myUser;
     }
-    public void habitsStatisticMenu()
-    {
-        while (true)
-        {
+    public void habitsStatisticMenu() {
+        while (true) {
             System.out.println("""
                     Введите цифру, чтобы продолжить:
                     0. Выход.
@@ -38,8 +39,7 @@ public class StatisticMenu
 
             int input = inputInt("Введите номер операции: ", 0, 6);
 
-            switch (input)
-            {
+            switch (input) {
                 case 0 -> {return;}
                 case 1 -> statisticAll();
                 case 2 -> statisticByStatus();
@@ -51,20 +51,18 @@ public class StatisticMenu
             }
         }
     }
-    public void statisticAll()
-    {
+    public void statisticAll() {
         System.out.println("Список всех привычек:");
         myUser.getHabits().forEach((name, habit) -> {
-            System.out.println("Привычка: " + name);
+            System.out.format("Привычка: %s%n", name);
             habit.getStatistic().forEach((date, status) -> {
                 String statusText = status == null ? "не отмечена" : status ? "выполнена" : "не выполнена";
-                System.out.println("  Дата: " + date + " - Статус: " + statusText);
+                System.out.format("  Дата: %s - Статус: %s%n",date , statusText);
             });
             System.out.println();
         });
     }
-    public void statisticByStatus()
-    {
+    public void statisticByStatus() {
         System.out.println("""
         Выберите статус привычек для отображения:
         1. Выполнена.
@@ -80,7 +78,7 @@ public class StatisticMenu
             default -> "";
         };
 
-        System.out.println("Привычки со статусом \"" + statusText + "\":");
+        System.out.format("Привычки со статусом %s:%n", statusText);
 
         myUser.getHabits().forEach((name, habit) -> {
             habit.getStatistic().forEach((date, status) -> {
@@ -92,37 +90,33 @@ public class StatisticMenu
                 };
 
                 if (matches) {
-                    System.out.println("Привычка: " + name + " - Дата: " + date + " - Статус: " + statusText);
+                    System.out.format("Привычка: %s - Дата: %s - Статус: %s%n", name, date.toString(), statusText);
                 }
             });
         });
     }
-    public void statisticByDate()
-    {
+    public void statisticByDate() {
         LocalDate startDate = inputDate("Введите начальную дату (гггг-мм-дд): ");
         LocalDate endDate = inputDate("Введите конечную дату (гггг-мм-дд): ");
-        System.out.println("Привычки с " + startDate + " по " + endDate + ":");
+        System.out.format("Привычки с %s по %s:%n", startDate.toString(), endDate.toString());
 
-        if(endDate.isBefore(startDate))
-        {
+        if(endDate.isBefore(startDate)) {
             System.out.println("Вы неправильно ввели даты! Попробуйте ещё раз.");
             return;
         }
 
         myUser.getHabits().forEach((name, habit) -> {
-            System.out.println("Привычка: " + name);
+            System.out.format("Привычка: %s%n",name);
             habit.getStatistic().forEach((date, status) -> {
-                if (!date.isBefore(startDate) && !date.isAfter(endDate))
-                {
+                if (!date.isBefore(startDate) && !date.isAfter(endDate)) {
                     String statusText = status == null ? "не отмечена" : status ? "выполнена" : "не выполнена";
-                    System.out.println("  Дата: " + date + " - Статус: " + statusText);
+                    System.out.format("  Дата: %s - Статус: %s%n", date, statusText);
                 }
             });
             System.out.println();
         });
     }
-    public void statisticStreaks()
-    {
+    public void statisticStreaks() {
         System.out.println("Серии выполнения привычек: ");
 
         myUser.getHabits().forEach((name, habit) -> {
@@ -131,27 +125,22 @@ public class StatisticMenu
             List<Boolean> statuses = new ArrayList<>(habit.getStatistic().values());
             Collections.reverse(statuses);
 
-            for (Boolean status : statuses)
-            {
-                if (Boolean.TRUE.equals(status))
-                {
+            for (Boolean status : statuses) {
+                if (Boolean.TRUE.equals(status)) {
                     streak++;
-                } else
-                {
+                } else {
                     break;  // Останавливаем цикл, если встречаем false или null
                 }
             }
 
-            System.out.println("Привычка: " + name + " - Текущая серия: " + streak);
+            System.out.format("Привычка: %s - Текущая серия: %s%n", name, streak);
         });
     }
-    public void statisticByName()
-    {
+    public void statisticByName() {
         String name = inputLine("Введите название привычки: ");
         Habit habit = myUser.getHabits().get(name);
 
-        if (habit == null)
-        {
+        if (habit == null) {
             System.out.println("Привычка с таким названием не найдена.");
             return;
         }
@@ -162,13 +151,11 @@ public class StatisticMenu
 
         habit.getStatistic().forEach((date, status) -> {
             String statusText = status == null ? "не отмечена" : status ? "выполнена" : "не выполнена";
-            System.out.println("  Дата: " + date + " - Статус: " + statusText);
+            System.out.format("  Дата: %s - Статус: %s%n", date, statusText);
         });
     }
-    public void statisticPercentile()
-    {
-        if (myUser.getHabits().isEmpty())
-        {
+    public void statisticPercentile() {
+        if (myUser.getHabits().isEmpty()) {
             System.out.println("У вас нет привычек для анализа!");
             return;
         }
@@ -176,7 +163,7 @@ public class StatisticMenu
         myUser.getHabits().forEach((name, habit) -> {
             Map<LocalDate, Boolean> statistics = habit.getStatistic();
             if (statistics.isEmpty()) {
-                System.out.println("Привычка \"" + name + "\" ещё не отмечена.");
+                System.out.format("Привычка \"%s\" ещё не отмечена.%n", name);
                 return;
             }
 
@@ -185,7 +172,7 @@ public class StatisticMenu
 
             double completionPercentage = ((double) completedDays / totalDays) * 100;
 
-            System.out.printf("Привычка: %s - Выполнено: %.2f%% (всего дней: %d, выполнено: %d)\n",
+            System.out.format("Привычка: %s - Выполнено: %.2f%% (всего дней: %d, выполнено: %d%n)\n",
                     name, completionPercentage, totalDays, completedDays);
         });
     }

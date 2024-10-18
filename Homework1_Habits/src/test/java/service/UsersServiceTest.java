@@ -4,6 +4,7 @@ import io.envoi.model.Habit;
 import io.envoi.model.User;
 import io.envoi.service.UsersService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +19,7 @@ public class UsersServiceTest {
     public void setUp() {
         usersService = new UsersService();
     }
-
+    @DisplayName("testAddUserSuccess")
     @Test
     public void testAddUserSuccess()
     {
@@ -28,7 +29,7 @@ public class UsersServiceTest {
         assertTrue(result, "User should be added successfully");
         assertEquals(user, usersService.getByEmail("test@example.com"));
     }
-
+    @DisplayName("testAddUserFail_NullUser")
     @Test
     public void testAddUserFail_NullUser()
     {
@@ -36,7 +37,7 @@ public class UsersServiceTest {
 
         assertFalse(result, "Adding null user should fail");
     }
-
+    @DisplayName("testGetByEmail_UserExists")
     @Test
     public void testGetByEmail_UserExists()
     {
@@ -49,7 +50,7 @@ public class UsersServiceTest {
         assertEquals("test@example.com", result.getEmail());
         assertEquals("Test User", result.getName());
     }
-
+    @DisplayName("testGetByEmail_UserDoesNotExist")
     @Test
     public void testGetByEmail_UserDoesNotExist()
     {
@@ -57,7 +58,7 @@ public class UsersServiceTest {
 
         assertNull(result, "User should not be found");
     }
-
+    @DisplayName("testGetHabits_UserExists")
     @Test
     public void testGetHabits_UserExists()
     {
@@ -69,7 +70,7 @@ public class UsersServiceTest {
         assertNotNull(habits, "Habits map should not be null");
         assertTrue(habits.isEmpty(), "User should have no habits initially");
     }
-
+    @DisplayName("testGetHabits_UserDoesNotExist")
     @Test
     public void testGetHabits_UserDoesNotExist()
     {
@@ -77,7 +78,7 @@ public class UsersServiceTest {
 
         assertNull(habits, "Habits map should be null for nonexistent user");
     }
-
+    @DisplayName("testCreateUserSuccess")
     @Test
     public void testCreateUserSuccess()
     {
@@ -89,7 +90,7 @@ public class UsersServiceTest {
         assertEquals("test@example.com", user.getEmail());
         assertEquals("Test User", user.getName());
     }
-
+    @DisplayName("testCreateUserFail_EmptyEmail")
     @Test
     public void testCreateUserFail_EmptyEmail()
     {
@@ -97,7 +98,7 @@ public class UsersServiceTest {
 
         assertFalse(result, "User creation should fail for empty email");
     }
-
+    @DisplayName("testCreateUserFail_NullEmail")
     @Test
     public void testCreateUserFail_NullEmail()
     {
@@ -105,7 +106,7 @@ public class UsersServiceTest {
 
         assertFalse(result, "User creation should fail for null email");
     }
-
+    @DisplayName("testCreateUserFail_EmailExists")
     @Test
     public void testCreateUserFail_EmailExists()
     {
@@ -114,7 +115,7 @@ public class UsersServiceTest {
 
         assertFalse(result, "User creation should fail for existing email");
     }
-
+    @DisplayName("testDeleteUserSuccess")
     @Test
     public void testDeleteUserSuccess()
     {
@@ -125,7 +126,7 @@ public class UsersServiceTest {
         assertTrue(result, "User should be deleted successfully");
         assertNull(usersService.getByEmail("test@example.com"), "Deleted user should not be retrievable");
     }
-
+    @DisplayName("testDeleteUserFail_UserDoesNotExist")
     @Test
     public void testDeleteUserFail_UserDoesNotExist()
     {
@@ -133,7 +134,7 @@ public class UsersServiceTest {
 
         assertFalse(result, "Deleting nonexistent user should fail");
     }
-
+    @DisplayName("testEmailExists_UserExists")
     @Test
     public void testEmailExists_UserExists()
     {
@@ -141,7 +142,7 @@ public class UsersServiceTest {
 
         assertTrue(usersService.emailExists("test@example.com"), "Email should exist");
     }
-
+    @DisplayName("testEmailExists_UserDoesNotExist")
     @Test
     public void testEmailExists_UserDoesNotExist()
     {

@@ -15,7 +15,7 @@ public class HabitTest {
     void setUp() {
         habit = new Habit("Exercise", "Daily workout", Period.ofDays(1));
     }
-
+    @DisplayName("testHabitCreation")
     @Test
     void testHabitCreation() {
         assertNotNull(habit);
@@ -26,7 +26,7 @@ public class HabitTest {
         assertTrue(habit.getStatistic().containsKey(LocalDate.now()));
         assertNull(habit.getStatistic().get(LocalDate.now())); // Начальное значение должно быть null
     }
-
+    @DisplayName("testCheckHabit")
     @Test
     void testCheckHabit() {
         habit.check(); // Отмечаем привычку как выполненную
@@ -34,14 +34,14 @@ public class HabitTest {
         // Проверяем статус на сегодня
         assertTrue(habit.getStatistic().get(LocalDate.now())); // Значение должно быть true
     }
-
+    @DisplayName("testCanBeCheckedWhenNull")
     @Test
     void testCanBeCheckedWhenNull() {
         assertTrue(habit.canBeChecked()); // Можно отметить, так как значение null
         habit.check();
         assertFalse(habit.canBeChecked()); // Нельзя отметить, так как теперь значение true
     }
-
+    @DisplayName("testCanBeCheckedAfterFillingGaps")
     @Test
     void testCanBeCheckedAfterFillingGaps() {
         // Проставим пропущенные дни
@@ -54,7 +54,7 @@ public class HabitTest {
 
         assertFalse(newHabit.canBeChecked()); // Нельзя отметить, так как сейчас есть запись с true
     }
-
+    @DisplayName("testGetLastStatistic")
     @Test
     void testGetLastStatistic() {
         // Создаем привычку, но не отмечаем её

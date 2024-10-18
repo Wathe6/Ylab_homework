@@ -24,7 +24,7 @@ public class UserTest
         Map<String, Habit> habits = new HashMap<>();
         user = new User("test@example.com", "John Doe", habits);
     }
-
+    @DisplayName("testAddHabit")
     @Test
     void testAddHabit()
     {
@@ -33,7 +33,7 @@ public class UserTest
 
         assertFalse(user.addHabit(habit1), "Should return false when adding an existing habit");
     }
-
+    @DisplayName("testRemoveHabit")
     @Test
     void testRemoveHabit()
     {
@@ -43,7 +43,7 @@ public class UserTest
 
         assertFalse(user.removeHabit(habit2), "Should return false when trying to remove a non-existent habit");
     }
-
+    @DisplayName("testFindHabit")
     @Test
     void testFindHabit()
     {
@@ -52,7 +52,7 @@ public class UserTest
 
         assertNull(user.findHabit("NonExistent"), "Should return null for a non-existent habit");
     }
-
+    @DisplayName("testGetHabitsToMark")
     @Test
     void testGetHabitsToMark()
     {
@@ -64,7 +64,7 @@ public class UserTest
         habit1.check();
         assertEquals(1, user.getHabitsToMark().size(), "Should return only habits that can still be marked");
     }
-
+    @DisplayName("testSettersAndGetters")
     @Test
     void testSettersAndGetters()
     {
@@ -77,7 +77,7 @@ public class UserTest
         assertEquals("newemail@example.com", user.getEmail(), "Email should be updated correctly");
         assertEquals("Jane Doe", user.getName(), "Name should be updated correctly");
     }
-
+    @DisplayName("testEqualsAndHashCode")
     @Test
     void testEqualsAndHashCode()
     {

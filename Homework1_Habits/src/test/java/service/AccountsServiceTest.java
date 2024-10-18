@@ -16,7 +16,7 @@ public class AccountsServiceTest {
     {
         accountsService = new AccountsService();
     }
-
+    @DisplayName("testAddAccount")
     @Test
     void testAddAccount()
     {
@@ -26,7 +26,7 @@ public class AccountsServiceTest {
         assertTrue(result, "Account should be added successfully");
         assertNotNull(accountsService.getByEmail("mail1@gmail.com"));
     }
-
+    @DisplayName("testAddDuplicateAccount")
     @Test
     void testAddDuplicateAccount()
     {
@@ -36,13 +36,13 @@ public class AccountsServiceTest {
         assertTrue(accountsService.add(account1), "First account should be added successfully");
         assertFalse(accountsService.add(account2), "Duplicate account should not be added");
     }
-
+    @DisplayName("testAddNullAccount")
     @Test
     void testAddNullAccount()
     {
         assertFalse(accountsService.add(null), "Null account should not be added");
     }
-
+    @DisplayName("testCreateAccount")
     @Test
     void testCreateAccount()
     {
@@ -54,7 +54,7 @@ public class AccountsServiceTest {
         assertEquals("password2", createdAccount.getPassword());
         assertEquals(Roles.ADMIN, createdAccount.getRole());
     }
-
+    @DisplayName("testCreateDuplicateAccount")
     @Test
     void testCreateDuplicateAccount()
     {
@@ -63,7 +63,7 @@ public class AccountsServiceTest {
 
         assertFalse(result, "Duplicate email account should not be created");
     }
-
+    @DisplayName("testCreateWithInvalidEmail")
     @Test
     void testCreateWithInvalidEmail()
     {
@@ -73,7 +73,7 @@ public class AccountsServiceTest {
         result = accountsService.create(null, "password2", Roles.ADMIN);
         assertFalse(result, "Account with null email should not be created");
     }
-
+    @DisplayName("testUpdateAccount")
     @Test
     void testUpdateAccount()
     {
@@ -86,14 +86,14 @@ public class AccountsServiceTest {
         assertEquals("newPassword", updatedAccount.getPassword());
         assertEquals(Roles.ADMIN, updatedAccount.getRole());
     }
-
+    @DisplayName("testUpdateNonExistentAccount")
     @Test
     void testUpdateNonExistentAccount()
     {
         boolean result = accountsService.update("nonexistent@gmail.com",  "newPassword", Roles.ADMIN);
         assertFalse(result, "Updating non-existent account should fail");
     }
-
+    @DisplayName("testDeleteAccount")
     @Test
     void testDeleteAccount()
     {
@@ -103,14 +103,14 @@ public class AccountsServiceTest {
         assertTrue(result, "Account should be deleted successfully");
         assertNull(accountsService.getByEmail("mail4@gmail.com"), "Deleted account should not exist");
     }
-
+    @DisplayName("testDeleteNonExistentAccount")
     @Test
     void testDeleteNonExistentAccount()
     {
         boolean result = accountsService.delete("nonexistent@gmail.com");
         assertFalse(result, "Deleting non-existent account should fail");
     }
-
+    @DisplayName("testEmailExists")
     @Test
     void testEmailExists()
     {
