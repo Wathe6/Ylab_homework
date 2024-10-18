@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="service.UsersServiceTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2024-10-18T14:14:13" hostname="DESKTOP-4K11QI4" time="0.026">
+  <properties/>
+  <testcase name="testAddUserFail_NullUser" classname="service.UsersServiceTest" time="0.012"/>
+  <testcase name="testGetHabits_UserExists" classname="service.UsersServiceTest" time="0.002"/>
+  <testcase name="testEmailExists_UserDoesNotExist" classname="service.UsersServiceTest" time="0.001"/>
+  <testcase name="testEmailExists_UserExists" classname="service.UsersServiceTest" time="0.001"/>
+  <testcase name="testCreateUserFail_EmailExists" classname="service.UsersServiceTest" time="0.0"/>
+  <testcase name="testDeleteUserSuccess" classname="service.UsersServiceTest" time="0.001"/>
+  <testcase name="testCreateUserFail_EmptyEmail" classname="service.UsersServiceTest" time="0.001"/>
+  <testcase name="testGetByEmail_UserDoesNotExist" classname="service.UsersServiceTest" time="0.0"/>
+  <testcase name="testCreateUserSuccess" classname="service.UsersServiceTest" time="0.001"/>
+  <testcase name="testDeleteUserFail_UserDoesNotExist" classname="service.UsersServiceTest" time="0.0"/>
+  <testcase name="testGetByEmail_UserExists" classname="service.UsersServiceTest" time="0.001"/>
+  <testcase name="testGetHabits_UserDoesNotExist" classname="service.UsersServiceTest" time="0.0"/>
+  <testcase name="testAddUserSuccess" classname="service.UsersServiceTest" time="0.0"/>
+  <testcase name="testCreateUserFail_NullEmail" classname="service.UsersServiceTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
