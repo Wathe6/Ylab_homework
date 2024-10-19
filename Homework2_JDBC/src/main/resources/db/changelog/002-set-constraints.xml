@@ -8,7 +8,7 @@
         <addForeignKeyConstraint
                 baseTableName="habits"
                 baseTableSchemaName="habits_schema"
-                baseColumnNames="accountId"
+                baseColumnNames="account_id"
                 referencedTableName="accounts"
                 referencedColumnNames="id"
                 referencedTableSchemaName="habits_schema"
@@ -19,7 +19,7 @@
         <addForeignKeyConstraint
                 baseTableName="statistics"
                 baseTableSchemaName="habits_schema"
-                baseColumnNames="habitId"
+                baseColumnNames="habit_id"
                 referencedTableName="habits"
                 referencedColumnNames="id"
                 referencedTableSchemaName="habits_schema"

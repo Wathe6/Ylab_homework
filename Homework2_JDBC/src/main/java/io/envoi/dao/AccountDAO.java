@@ -4,31 +4,28 @@ import io.envoi.mapper.AccountMapper;
 import io.envoi.model.Account;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AccountDAO extends BasicDAO<Account>
-{
+public class AccountDAO extends BasicDAO<Account> {
     private static final String TABLENAME = "accounts";
-    public AccountDAO()
-    {
+    public AccountDAO() {
         super(TABLENAME, new AccountMapper());
     }
 
     @Override
-    public boolean save(Account account)
-    {
+    public boolean save(Account account) {
         String sql = "INSERT INTO " + TABLENAME + "(email, password, name, role) VALUES (?,?,?,?)";
         int flag = 0;
-        try(PreparedStatement ps = connection.prepareStatement(sql))
-        {
+        try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, account.getEmail());
             ps.setString(2, account.getPassword());
             ps.setString(3, account.getName());
             ps.setString(4, account.getRole().toString());
 
             flag = ps.executeUpdate();
-        } catch (SQLException e)
-        {
+            connection.commit();
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         //The flag stores 1 if row was added
@@ -36,12 +33,10 @@ public class AccountDAO extends BasicDAO<Account>
     }
 
     @Override
-    public boolean update(Account account)
-    {
+    public boolean update(Account account) {
         String sql = "UPDATE " + TABLENAME + " SET email=?, password=?, name=?, role=? WHERE id=?";
         int flag = 0;
-        try(PreparedStatement ps = connection.prepareStatement(sql))
-        {
+        try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, account.getEmail());
             ps.setString(2, account.getPassword());
             ps.setString(3, account.getName());
@@ -49,11 +44,27 @@ public class AccountDAO extends BasicDAO<Account>
             ps.setLong(5, account.getId());
 
             flag = ps.executeUpdate();
-        } catch (SQLException e)
-        {
+            connection.commit();
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         //The flag stores 1 if row was updated
         return flag > 0;
+    }
+
+    public boolean emailExist(String email) {
+        String sql = "SELECT 1 FROM " + TABLENAME + " WHERE email=?";
+        boolean exists = false;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            // If rs contains records, then the email exists
+            exists = rs.next();
+        } catch (SQLException e) {
+            System.out.println("Ошибка при поиске email: " + e.getMessage());
+        }
+
+        return exists;
     }
 }

@@ -18,6 +18,13 @@ public class Habit
     String description;
     Period period;
 
+    public Habit(Long accountId, String name, String description, Period period) {
+        this.accountId = accountId;
+        this.name = name;
+        this.description = description;
+        this.period = period;
+    }
+
     public Habit(ResultSet rs) throws SQLException {
         this.id = rs.getLong("id");
         this.accountId = rs.getLong("account_id");

@@ -16,7 +16,11 @@ public class Statistic
     Long habitId;
     LocalDate date;
     Boolean marking;
-
+    public Statistic(Long habitId, LocalDate localDate, Boolean marking) {
+        this.habitId = habitId;
+        this.date = localDate;
+        this.marking = marking;
+    }
     public Statistic(ResultSet rs) throws SQLException {
         this.id = rs.getLong("id");
         this.habitId = rs.getLong("habit_id");

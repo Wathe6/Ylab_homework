@@ -1,5 +1,6 @@
 package io.envoi.config;
 
+import liquibase.Scope;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
@@ -9,7 +10,9 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class LiquibaseConfig
@@ -20,11 +23,9 @@ public class LiquibaseConfig
         Properties properties = new Properties();
 
         try (FileInputStream fis =
-                     new FileInputStream("./src/main/resources/properties/liquibase.properties"))
-        {
+                     new FileInputStream("./src/main/resources/properties/liquibase.properties")) {
             properties.load(fis);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("Не найден файл liquibase.properties");
         }
 
@@ -33,25 +34,24 @@ public class LiquibaseConfig
         String password = properties.getProperty("password");
         String changeLogFile = properties.getProperty("changeLogFile");
 
-        try
-        {
+        try {
             Connection connection = DriverManager.getConnection(url, username, password);
+
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
-                    new JdbcConnection(connection)
-            );
+                    new JdbcConnection(connection));
             database.setDefaultSchemaName("habits_schema");
             Liquibase liquibase = new Liquibase(changeLogFile, new ClassLoaderResourceAccessor(), database);
             liquibase.update();
 
             dbConnection = connection;
-        } catch (SQLException | LiquibaseException e)
-        {
+        } catch (SQLException | LiquibaseException e) {
             System.out.println(e.getMessage());
         }
-
     }
-    public static Connection getDbConnection()
-    {
+    public static Connection getDbConnection() {
         return dbConnection;
+    }
+    public static void close() throws SQLException {
+        dbConnection.close();
     }
 }

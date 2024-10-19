@@ -17,17 +17,23 @@ public class Account
     String name;
     Roles role;
 
-    public Account(ResultSet rs) throws SQLException
-    {
+    public Account(String email, String password, String name, Roles role) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.role = role;
+    }
+
+    public Account(ResultSet rs) throws SQLException {
         this.id = rs.getLong("id");
         this.email = rs.getString("email");
         this.password = rs.getString("password");
         this.name = rs.getString("name");
-        this.role = Roles.valueOf(rs.getString("role"));
+        String roleString = rs.getString("role").toUpperCase();
+        this.role = Roles.valueOf(roleString);
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "Account{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
