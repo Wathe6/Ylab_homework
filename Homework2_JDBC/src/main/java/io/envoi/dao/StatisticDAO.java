@@ -6,7 +6,9 @@ import io.envoi.model.Statistic;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Save, update, getLastDate operations with Statistic. GetAll, get(id), getByFields, delete, isTableEmpty are in BasicDAO.
+ * */
 public class StatisticDAO extends BasicDAO<Statistic>
 {
     private static final String TABLENAME = "statistics";
@@ -44,7 +46,10 @@ public class StatisticDAO extends BasicDAO<Statistic>
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, statistic.getHabitId());
-            ps.setString(2, statistic.getDate().toString());
+
+            java.sql.Date sqlDate = java.sql.Date.valueOf(statistic.getDate());
+            ps.setDate(2, sqlDate);
+
             if (statistic.getMarking() == null) {
                 ps.setNull(3, java.sql.Types.BOOLEAN);
             } else {

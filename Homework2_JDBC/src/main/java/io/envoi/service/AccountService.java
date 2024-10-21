@@ -5,6 +5,9 @@ import io.envoi.model.Account;
 
 import java.util.List;
 
+/**
+ * GetByEmail, emailExists operations with Account. GetAll, get(id), delete, update, isTableEmpty are in BasicService.
+ * */
 public class AccountService extends BasicService<Account> {
 
     public AccountService(AccountDAO dao) {
@@ -24,7 +27,7 @@ public class AccountService extends BasicService<Account> {
     }
 
     public boolean emailExists(String email) {
-        return ((AccountDAO) dao).emailExist(email);
+        return ((AccountDAO) dao).emailExists(email);
     }
 
     /**

@@ -10,7 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static io.envoi.in.Input.*;
-
+/**
+ * Menu for Statistic. GetAll, all by statuses (false, true, null), all by date, streaks, percentages.
+ * */
 public class StatisticMenu {
     private HabitService habitService;
     private StatisticService statisticService;

@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * GetByHabitId, getLastStatistic, check, canBeChecked, calcStreak operations with Statistic. GetAll, get(id), delete, update, isTableEmpty are in BasicService.
+ * */
 public class StatisticService extends BasicService<Statistic> {
     public StatisticService(StatisticDAO dao) {
         super(dao);
@@ -61,7 +64,7 @@ public class StatisticService extends BasicService<Statistic> {
             if (Boolean.TRUE.equals(status)) {
                 streak++;
             } else {
-                break;  // Останавливаем цикл, если встречаем false или null
+                break;
             }
         }
 

@@ -6,7 +6,9 @@ import io.envoi.model.Habit;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Save, update, habitExists operations with Habits. GetAll, get(id), getByFields, delete, isTableEmpty are in BasicDAO.
+ * */
 public class HabitDAO extends BasicDAO<Habit> {
     private static final String TABLENAME = "habits";
 
@@ -35,7 +37,7 @@ public class HabitDAO extends BasicDAO<Habit> {
 
     @Override
     public boolean update(Habit habit) {
-        String sql = "UPDATE " + TABLENAME + " SET email=?, password=?, name=?, role=? WHERE id=?";
+        String sql = "UPDATE " + TABLENAME + " SET account_id=?, name=?, description=?, period=? WHERE id=?";
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, habit.getAccountId());

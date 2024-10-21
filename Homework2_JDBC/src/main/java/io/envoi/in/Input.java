@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
+/**
+ * Input and validation methods.
+ * */
 public class Input {
     private static final Scanner in = new Scanner(System.in);
 

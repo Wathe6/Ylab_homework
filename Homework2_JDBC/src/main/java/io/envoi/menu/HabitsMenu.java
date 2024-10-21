@@ -13,7 +13,9 @@ import java.util.List;
 
 import static io.envoi.in.Input.inputInt;
 import static io.envoi.in.Input.inputLine;
-
+/**
+ * Menu for Habits. Check, add, change, delete.
+ * */
 public class HabitsMenu {
     private HabitService habitService;
     private StatisticService statisticService;
@@ -191,7 +193,7 @@ public class HabitsMenu {
 
             Habit habit = habits.get(i);
 
-            if(habitService.delete(habit)) {
+            if(habitService.delete(habit.getId())) {
                 System.out.println("Привычка успешно удалена!");
                 habits.remove(i);
             } else {

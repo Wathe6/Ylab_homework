@@ -4,7 +4,9 @@ import io.envoi.model.Habit;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Mapper for creating Habit objects from resultSet.
+ * */
 public class HabitMapper implements Mapper<Habit>
 {
     @Override

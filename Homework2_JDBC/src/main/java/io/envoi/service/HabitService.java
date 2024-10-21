@@ -5,6 +5,9 @@ import io.envoi.model.Habit;
 
 import java.util.List;
 
+/**
+ * GetByAccountId, habitExists, printAll operations with Habit. GetAll, get(id), delete, update, isTableEmpty are in BasicService.
+ * */
 public class HabitService extends BasicService<Habit> {
 
     public HabitService(HabitDAO dao) {

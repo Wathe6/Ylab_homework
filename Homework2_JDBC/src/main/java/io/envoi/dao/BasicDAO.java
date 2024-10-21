@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * GetAll, get(id), getByFields, delete, isTableEmpty are basic operations for another DAO. T must be a model class.
+ * */
 public abstract class BasicDAO<T> {
     protected Connection connection = LiquibaseConfig.getDbConnection();
     protected String tableName;
@@ -82,10 +84,11 @@ public abstract class BasicDAO<T> {
 
     public abstract boolean save(T t);
 
-    public boolean delete(T t) {
+    public <V extends  Long> boolean delete(V v) {
         String sql = "DELETE FROM " + tableName + " WHERE " + "id=?";
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, v);
             flag = ps.executeUpdate();
             connection.commit();
         } catch (Exception e) {
@@ -110,5 +113,9 @@ public abstract class BasicDAO<T> {
         }
 
         return isEmpty;
+    }
+
+    public void setNewConnection(Connection connection) {
+        this.connection = connection;
     }
 }

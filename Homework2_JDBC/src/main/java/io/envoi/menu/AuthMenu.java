@@ -8,7 +8,9 @@ import java.util.Scanner;
 
 import static io.envoi.in.Input.isValidEmail;
 import static io.envoi.in.Input.readPassword;
-
+/**
+ * Basic registration and login menu.
+ * */
 public class AuthMenu {
     private AccountService accountService;
     private Scanner in;

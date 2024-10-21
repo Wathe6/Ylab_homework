@@ -3,7 +3,9 @@ package io.envoi.service;
 import io.envoi.dao.BasicDAO;
 
 import java.util.List;
-
+/**
+ * GetAll, get(id), delete, update, isTableEmpty operations with services.
+ * */
 public abstract class BasicService<T> {
     protected BasicDAO<T> dao;
 
@@ -25,8 +27,8 @@ public abstract class BasicService<T> {
         return dao.save(t);
     }
 
-    public boolean delete(T t) {
-        return dao.delete(t);
+    public <V extends Long> boolean delete(V v) {
+        return dao.delete(v);
     }
 
     public boolean update(T t) {

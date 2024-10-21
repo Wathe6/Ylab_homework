@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  habitsDB:
+    image: postgres:latest
+    container_name: habitsDB
+    environment:
+      POSTGRES_PASSWORD: psswd200
+    ports:
+      - "5430:5432"
+    volumes:
+      - habits_data:/var/lib/postgresql/data

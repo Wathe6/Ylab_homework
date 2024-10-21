@@ -4,7 +4,9 @@ import io.envoi.model.Statistic;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Mapper for creating Statistic objects from resultSet.
+ * */
 public class StatisticMapper implements Mapper<Statistic>
 {
     @Override

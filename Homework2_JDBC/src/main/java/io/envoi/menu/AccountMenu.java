@@ -6,7 +6,9 @@ import io.envoi.service.AccountService;
 import java.util.Scanner;
 
 import static io.envoi.in.Input.*;
-
+/**
+ * Menu for changes in user Acccount - change Email, Password, Name or Delete Account.
+ * */
 public class AccountMenu {
     private AccountService accountService;
     private Scanner in;
@@ -131,6 +133,6 @@ public class AccountMenu {
     }
 
     private boolean deleteAcc() {
-        return accountService.delete(myAccount);
+        return accountService.delete(myAccount.getId());
     }
 }

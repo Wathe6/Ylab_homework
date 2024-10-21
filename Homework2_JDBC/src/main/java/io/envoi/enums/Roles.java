@@ -1,5 +1,7 @@
 package io.envoi.enums;
-
+/**
+ * Roles for Account: User, Admin.
+ * */
 public enum Roles
 {
     USER("User"),

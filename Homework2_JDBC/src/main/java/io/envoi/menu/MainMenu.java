@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import static io.envoi.in.Input.inputInt;
-
+/**
+ * Main menu, from which all other methods are used. Creates DAOs, Services and Menus when initialised.
+ * */
 public class MainMenu {
     private static Account myAccount;
     private static final AuthMenu authMenu;

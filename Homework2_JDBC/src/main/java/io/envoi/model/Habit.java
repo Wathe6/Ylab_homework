@@ -6,6 +6,9 @@ import lombok.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Habit model for database.
+ * */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
