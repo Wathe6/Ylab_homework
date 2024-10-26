@@ -2,6 +2,7 @@ package io.envoi.dao;
 
 import io.envoi.mapper.AccountMapper;
 import io.envoi.model.Account;
+import io.envoi.util.Queries;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,13 +18,14 @@ public class AccountDAO extends BasicDAO<Account> {
 
     @Override
     public boolean save(Account account) {
-        String sql = "INSERT INTO " + TABLENAME + "(email, password, name, role) VALUES (?,?,?,?)";
+        String sql = Queries.INSERT_ACCOUNT;
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, account.getEmail());
-            ps.setString(2, account.getPassword());
-            ps.setString(3, account.getName());
-            ps.setString(4, account.getRole().toString());
+            ps.setString(1, tableName);
+            ps.setString(2, account.getEmail());
+            ps.setString(3, account.getPassword());
+            ps.setString(4, account.getName());
+            ps.setString(5, account.getRole().toString());
 
             flag = ps.executeUpdate();
             connection.commit();
@@ -36,14 +38,15 @@ public class AccountDAO extends BasicDAO<Account> {
 
     @Override
     public boolean update(Account account) {
-        String sql = "UPDATE " + TABLENAME + " SET email=?, password=?, name=?, role=? WHERE id=?";
+        String sql = Queries.UPDATE_ACCOUNT;
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, account.getEmail());
-            ps.setString(2, account.getPassword());
-            ps.setString(3, account.getName());
-            ps.setString(4, account.getRole().toString());
-            ps.setLong(5, account.getId());
+            ps.setString(1, tableName);
+            ps.setString(2, account.getEmail());
+            ps.setString(3, account.getPassword());
+            ps.setString(4, account.getName());
+            ps.setString(5, account.getRole().toString());
+            ps.setLong(6, account.getId());
 
             flag = ps.executeUpdate();
             connection.commit();
@@ -55,11 +58,12 @@ public class AccountDAO extends BasicDAO<Account> {
     }
 
     public boolean emailExists(String email) {
-        String sql = "SELECT 1 FROM " + TABLENAME + " WHERE email=?";
+        String sql = Queries.EMAIL_EXISTS;
         boolean exists = false;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, email);
+            ps.setString(1, tableName);
+            ps.setString(2, email);
             ResultSet rs = ps.executeQuery();
             // If rs contains records, then the email exists
             exists = rs.next();

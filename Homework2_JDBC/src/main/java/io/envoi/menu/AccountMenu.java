@@ -5,7 +5,11 @@ import io.envoi.service.AccountService;
 
 import java.util.Scanner;
 
-import static io.envoi.in.Input.*;
+import static io.envoi.in.Input.inputInt;
+import static io.envoi.in.Input.isValidEmail;
+import static io.envoi.in.Input.inputLine;
+import static io.envoi.in.Input.readPassword;
+
 /**
  * Menu for changes in user Acccount - change Email, Password, Name or Delete Account.
  * */

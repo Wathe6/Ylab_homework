@@ -2,6 +2,7 @@ package io.envoi.dao;
 
 import io.envoi.mapper.HabitMapper;
 import io.envoi.model.Habit;
+import io.envoi.util.Queries;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,13 +19,14 @@ public class HabitDAO extends BasicDAO<Habit> {
 
     @Override
     public boolean save(Habit habit) {
-        String sql = "INSERT INTO " + TABLENAME + "(account_id, name, description, period) VALUES (?,?,?,?)";
+        String sql = Queries.INSERT_HABIT;
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, habit.getAccountId());
-            ps.setString(2, habit.getName());
-            ps.setString(3, habit.getDescription());
-            ps.setString(4, habit.getPeriod().toString());
+            ps.setString(1, tableName);
+            ps.setLong(2, habit.getAccountId());
+            ps.setString(3, habit.getName());
+            ps.setString(4, habit.getDescription());
+            ps.setString(5, habit.getPeriod().toString());
 
             flag = ps.executeUpdate();
             connection.commit();
@@ -37,14 +39,15 @@ public class HabitDAO extends BasicDAO<Habit> {
 
     @Override
     public boolean update(Habit habit) {
-        String sql = "UPDATE " + TABLENAME + " SET account_id=?, name=?, description=?, period=? WHERE id=?";
+        String sql = Queries.UPDATE_HABIT;
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, habit.getAccountId());
-            ps.setString(2, habit.getName());
-            ps.setString(3, habit.getDescription());
-            ps.setString(4, habit.getPeriod().toString());
-            ps.setLong(5, habit.getId());
+            ps.setString(1, tableName);
+            ps.setLong(2, habit.getAccountId());
+            ps.setString(3, habit.getName());
+            ps.setString(4, habit.getDescription());
+            ps.setString(5, habit.getPeriod().toString());
+            ps.setLong(6, habit.getId());
 
             flag = ps.executeUpdate();
             connection.commit();
@@ -56,12 +59,13 @@ public class HabitDAO extends BasicDAO<Habit> {
     }
 
     public boolean habitExists(Long accountId, String habitName) {
-        String sql = "SELECT 1 FROM " + TABLENAME + " WHERE account_id=? AND name=?";
+        String sql = Queries.HABITS_EXISTS;
         boolean exists = false;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, accountId);
-            ps.setString(2, habitName);
+            ps.setString(1, tableName);
+            ps.setLong(2, accountId);
+            ps.setString(3, habitName);
 
             ResultSet rs = ps.executeQuery();
             // If rs contains records, then the habitName exists

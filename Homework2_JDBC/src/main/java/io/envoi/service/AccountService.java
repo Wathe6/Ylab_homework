@@ -2,6 +2,7 @@ package io.envoi.service;
 
 import io.envoi.dao.AccountDAO;
 import io.envoi.model.Account;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class AccountService extends BasicService<Account> {
      * */
     public Account getByEmail(String email) {
         List<Account> list = dao.getByField("email", email);
-        if(list == null || list.isEmpty())
+        if(CollectionUtils.isEmpty(list))
         {
             System.out.println("Ошибка при поиске email - его не существует.");
             return null;

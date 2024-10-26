@@ -2,6 +2,7 @@ package io.envoi.dao;
 
 import io.envoi.config.LiquibaseConfig;
 import io.envoi.mapper.Mapper;
+import io.envoi.util.Queries;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,9 +25,10 @@ public abstract class BasicDAO<T> {
 
     public List<T> getAll() {
         List<T> results = new ArrayList<>();
-        String sql = "SELECT * FROM " + tableName;
+        String sql = Queries.SELECT_ALL;
 
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, tableName);
             try(ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     results.add(mapper.map(rs));
@@ -43,10 +45,11 @@ public abstract class BasicDAO<T> {
      */
     public T get(Long id) {
         T result = null;
-        String sql = "SELECT * FROM " + tableName + " WHERE id=?";
+        String sql = Queries.SELECT_WHERE;
 
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, id);
+            ps.setString(1, tableName);
+            ps.setLong(2, id);
             try(ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     result = mapper.map(rs);
@@ -65,10 +68,12 @@ public abstract class BasicDAO<T> {
      */
     public <V> List<T> getByField(String fieldName, V value) {
         List<T> results = new ArrayList<>();
-        String sql = "SELECT * FROM " + tableName + " WHERE " + fieldName + "=?";
+        String sql = Queries.SELECT_BY_FIELD;
 
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setObject(1, value);
+            ps.setString(1, tableName);
+            ps.setString(2, fieldName);
+            ps.setObject(3, value);
             try(ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     results.add(mapper.map(rs));
@@ -85,10 +90,11 @@ public abstract class BasicDAO<T> {
     public abstract boolean save(T t);
 
     public <V extends  Long> boolean delete(V v) {
-        String sql = "DELETE FROM " + tableName + " WHERE " + "id=?";
+        String sql = Queries.DELETE;
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, v);
+            ps.setString(1, tableName);
+            ps.setLong(2, v);
             flag = ps.executeUpdate();
             connection.commit();
         } catch (Exception e) {
@@ -101,13 +107,14 @@ public abstract class BasicDAO<T> {
     public abstract boolean update(T t);
 
     public boolean isTableEmpty() {
-        String sql = "SELECT 1 FROM " + tableName + " LIMIT 1";
+        String sql = Queries.SELECT_ONE;
         boolean isEmpty = true;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-             ResultSet rs = ps.executeQuery();
-             // If rs contains records, then the table is not empty
-             isEmpty = !rs.next();
+            ps.setString(1, tableName);
+            ResultSet rs = ps.executeQuery();
+            // If rs contains records, then the table is not empty
+            isEmpty = !rs.next();
         } catch (SQLException e) {
             System.out.printf("Ошибка при проверке пустоты таблицы %s: %s%n", tableName, e.getMessage());
         }

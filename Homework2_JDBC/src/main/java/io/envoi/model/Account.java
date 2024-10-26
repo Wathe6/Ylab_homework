@@ -9,7 +9,8 @@ import java.sql.SQLException;
 /**
  * Account model for database.
  * */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account

@@ -2,6 +2,7 @@ package io.envoi.dao;
 
 import io.envoi.mapper.StatisticMapper;
 import io.envoi.model.Statistic;
+import io.envoi.util.Queries;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,18 +19,19 @@ public class StatisticDAO extends BasicDAO<Statistic>
 
     @Override
     public boolean save(Statistic statistic) {
-        String sql = "INSERT INTO " + TABLENAME + "(habit_id, date, marking) VALUES (?,?,?)";
+        String sql = Queries.INSERT_STATISTIC;
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, statistic.getHabitId());
+            ps.setString(1, tableName);
+            ps.setLong(2, statistic.getHabitId());
 
             java.sql.Date sqlDate = java.sql.Date.valueOf(statistic.getDate());
-            ps.setDate(2, sqlDate);
+            ps.setDate(3, sqlDate);
 
             if (statistic.getMarking() == null) {
-                ps.setNull(3, java.sql.Types.BOOLEAN);
+                ps.setNull(4, java.sql.Types.BOOLEAN);
             } else {
-                ps.setBoolean(3, statistic.getMarking());
+                ps.setBoolean(4, statistic.getMarking());
             }
 
             flag = ps.executeUpdate();
@@ -42,20 +44,21 @@ public class StatisticDAO extends BasicDAO<Statistic>
     }
     @Override
     public boolean update(Statistic statistic) {
-        String sql = "UPDATE " + TABLENAME + " SET habit_id=?, date=?, marking=? WHERE id=?";
+        String sql = Queries.UPDATE_STATISTIC;
         int flag = 0;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, statistic.getHabitId());
+            ps.setString(1, tableName);
+            ps.setLong(2, statistic.getHabitId());
 
             java.sql.Date sqlDate = java.sql.Date.valueOf(statistic.getDate());
-            ps.setDate(2, sqlDate);
+            ps.setDate(3, sqlDate);
 
             if (statistic.getMarking() == null) {
-                ps.setNull(3, java.sql.Types.BOOLEAN);
+                ps.setNull(4, java.sql.Types.BOOLEAN);
             } else {
-                ps.setBoolean(3, statistic.getMarking());
+                ps.setBoolean(4, statistic.getMarking());
             }
-            ps.setLong(4, statistic.getId());
+            ps.setLong(5, statistic.getId());
 
             flag = ps.executeUpdate();
             connection.commit();
@@ -66,7 +69,7 @@ public class StatisticDAO extends BasicDAO<Statistic>
         return flag > 0;
     }
     public Statistic getLastDate(Long habitId) {
-        String sql = "SELECT * FROM " + TABLENAME + " WHERE habit_id = ? ORDER BY date DESC LIMIT 1";
+        String sql = Queries.LAST_STATISTIC;
         Statistic statistic = null;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
