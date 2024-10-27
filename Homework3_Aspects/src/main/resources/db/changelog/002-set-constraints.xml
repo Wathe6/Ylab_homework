@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="001-set-fk-habits" author="envoi">
+        <addForeignKeyConstraint
+                baseTableName="habits"
+                baseTableSchemaName="habits_schema"
+                baseColumnNames="account_id"
+                referencedTableName="accounts"
+                referencedColumnNames="id"
+                referencedTableSchemaName="habits_schema"
+                constraintName="fk_account_habit"/>
+    </changeSet>
+
+    <changeSet id="002-set-fk-statistics" author="envoi">
+        <addForeignKeyConstraint
+                baseTableName="statistics"
+                baseTableSchemaName="habits_schema"
+                baseColumnNames="habit_id"
+                referencedTableName="habits"
+                referencedColumnNames="id"
+                referencedTableSchemaName="habits_schema"
+                constraintName="fk_habit_statistic"/>
+    </changeSet>
+</databaseChangeLog>
