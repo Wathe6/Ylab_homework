@@ -25,17 +25,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Get statistic and check habits.
+ * */
 @Loggable
 @WebServlet(name="StatisticServlet", urlPatterns = "/api/statistic/*")
 public class StatisticServlet extends HttpServlet {
     private final StatisticService statisticService = new StatisticService(new StatisticDAO());
     private final HabitService habitService = new HabitService(new HabitDAO());
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final StatisticMapper statisticMapper = StatisticMapper.INSTANCE;
     private final HabitMapper habitMapper = HabitMapper.INSTANCE;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String action = req.getPathInfo();
 
         if (action == null)
@@ -53,7 +55,7 @@ public class StatisticServlet extends HttpServlet {
 
     }
 
-    private void checkHabit(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void checkHabit(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HabitDTO habitDTO = objectMapper.readValue(req.getReader(), HabitDTO.class);
         Habit habit = habitMapper.toEntity(habitDTO);
 
@@ -72,7 +74,7 @@ public class StatisticServlet extends HttpServlet {
         }
     }
 
-    private void statisticALl(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void statisticALl(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long accountId = Long.parseLong(req.getParameter("accountId"));
 
         List<Habit> habits = habitService.getByAccountId(accountId);

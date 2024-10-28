@@ -9,6 +9,7 @@ import io.envoi.servlet.AuthServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.when;
@@ -31,6 +32,7 @@ public class AuthServletTest {
     }
 
     @Test
+    @DisplayName("Test login success.")
     public void testLoginSuccessful() throws Exception {
         String email = "admin@example.com";
         String password = "admin123";
@@ -47,17 +49,15 @@ public class AuthServletTest {
         when(accountService.getByEmail(email)).thenReturn(account);
         when(authServlet.accountMapper.toDTO(account)).thenReturn(accountDTO);
 
-        // Act
         authServlet.doGet(req, resp);
 
-        // Assert
         verify(resp).setStatus(HttpServletResponse.SC_OK);
         verify(resp.getWriter()).write(objectMapper.writeValueAsString(accountDTO));
     }
 
     @Test
+    @DisplayName("Test login when email was not found.")
     public void testLoginEmailNotFound() throws Exception {
-        // Arrange
         String email = "unknown@example.com";
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
@@ -66,14 +66,13 @@ public class AuthServletTest {
         when(req.getParameter("email")).thenReturn(email);
         when(accountService.emailExists(email)).thenReturn(false);
 
-        // Act
         authServlet.doGet(req, resp);
 
-        // Assert
         verify(resp).sendError(HttpServletResponse.SC_NOT_FOUND, "Email doesn't exists.");
     }
 
     @Test
+    @DisplayName("Test reg success.")
     public void testRegistrationSuccessful() throws Exception {
         String email = "new@example.com";
         String password = "newpass";
@@ -101,8 +100,8 @@ public class AuthServletTest {
     }
 
     @Test
+    @DisplayName("Test reg when email exists")
     public void testRegistrationEmailExists() throws Exception {
-        // Arrange
         String email = "existing@example.com";
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
@@ -111,10 +110,8 @@ public class AuthServletTest {
         when(req.getParameter("email")).thenReturn(email);
         when(accountService.emailExists(email)).thenReturn(true);
 
-        // Act
         authServlet.doGet(req, resp);
 
-        // Assert
         verify(resp).sendError(HttpServletResponse.SC_CONFLICT, "Email already exists.");
     }
 }

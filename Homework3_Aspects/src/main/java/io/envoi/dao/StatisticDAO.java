@@ -8,6 +8,7 @@ import io.envoi.util.Queries;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  * Save, update, getLastDate operations with Statistic. GetAll, get(id), getByFields, delete, isTableEmpty are in BasicDAO.
  * */

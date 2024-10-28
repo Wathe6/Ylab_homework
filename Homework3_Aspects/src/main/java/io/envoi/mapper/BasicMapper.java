@@ -8,8 +8,7 @@ import java.sql.SQLException;
 /**
  * Mapper for creating objects from resultSet.
  * */
-public interface Mapper<T, DTO>
-{
+public interface BasicMapper<T, DTO> {
     T map(ResultSet rs) throws SQLException;
 
     DTO toDTO(T t);

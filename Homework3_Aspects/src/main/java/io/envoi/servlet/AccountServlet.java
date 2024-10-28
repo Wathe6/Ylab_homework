@@ -15,12 +15,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+/**
+ * Servlet to change account info or delete accounts.
+ * */
 @Loggable
 @WebServlet(name="AccountServlet", urlPatterns = "/api/account/*")
 public class AccountServlet extends HttpServlet {
     private final AccountService accountService = new AccountService(new AccountDAO());
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final AccountMapper accountMapper = AccountMapper.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

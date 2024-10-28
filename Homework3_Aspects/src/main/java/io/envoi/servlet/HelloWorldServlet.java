@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Check connection and database.
+ * */
 @Loggable
 @WebServlet("/hello")
 public class HelloWorldServlet extends HttpServlet {

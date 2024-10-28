@@ -15,6 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+/**
+ * Authentication servlet for registration or login.
+ * */
 @Loggable
 @WebServlet(name="AuthServlet", urlPatterns = "/api/auth/*")
 public class AuthServlet extends HttpServlet {

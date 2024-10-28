@@ -1,7 +1,7 @@
 package io.envoi.dao;
 
 import io.envoi.config.LiquibaseConfig;
-import io.envoi.mapper.Mapper;
+import io.envoi.mapper.BasicMapper;
 import io.envoi.util.Queries;
 
 import java.sql.Connection;
@@ -10,15 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * GetAll, get(id), getByFields, delete, isTableEmpty are basic operations for another DAO. T must be a model class.
  * */
 public abstract class BasicDAO<T, DTO> {
     protected Connection connection;
     protected String tableName;
-    protected Mapper<T, DTO> mapper;
+    protected BasicMapper<T, DTO> mapper;
 
-    public BasicDAO(String tableName, Mapper<T, DTO> mapper) {
+    public BasicDAO(String tableName, BasicMapper<T, DTO> mapper) {
         connection = LiquibaseConfig.getDbConnection();
         this.tableName = tableName;
         this.mapper = mapper;

@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * Create, update, getAll or delete habits.
+ * */
 @Loggable
 @WebServlet(name="HabitServlet", urlPatterns = "/api/habit")
 public class HabitServlet extends HttpServlet {
@@ -34,7 +37,7 @@ public class HabitServlet extends HttpServlet {
      * Get the list of checked and unchecked habits.
      * */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long accountId = Long.parseLong(req.getParameter("accountId"));
 
         List<Habit> habits = habitService.getByAccountId(accountId);
@@ -68,7 +71,7 @@ public class HabitServlet extends HttpServlet {
      * Create a new habit.
      * */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HabitDTO habitDTO = objectMapper.readValue(req.getInputStream(), HabitDTO.class);
         Long accountId = habitDTO.accountId();
 
@@ -89,7 +92,7 @@ public class HabitServlet extends HttpServlet {
      * Change existing habit.
      * */
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HabitDTO habitDTO = objectMapper.readValue(req.getInputStream(), HabitDTO.class);
         Habit habit = habitService.get(habitDTO.id());
 
@@ -112,7 +115,7 @@ public class HabitServlet extends HttpServlet {
      * Delete a habit.
      * */
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HabitDTO habitDTO = objectMapper.readValue(req.getInputStream(), HabitDTO.class);
         Habit habit = habitService.get(habitDTO.id());
 
