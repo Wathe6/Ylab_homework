@@ -68,6 +68,7 @@ public class LiquibaseConfig
         Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
                 new JdbcConnection(connection));
 
+        database.setLiquibaseSchemaName("liquibase_schema");
         database.setDefaultSchemaName("public");
         Liquibase liquibase = new Liquibase(initLogFile, new ClassLoaderResourceAccessor(), database);
         liquibase.update();

@@ -7,9 +7,8 @@ import io.envoi.model.dto.StatisticDTO;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * GetByHabitId, getLastStatistic, check, canBeChecked, calcStreak operations with Statistic. GetAll, get(id), delete, update, isTableEmpty are in BasicService.
@@ -25,6 +24,31 @@ public class StatisticService extends BasicService<Statistic, StatisticDTO> {
 
     public Statistic getLastStatistic(Long id) {
         return ((StatisticDAO) dao).getLastDate(id);
+    }
+
+    public Map<Long, List<StatisticDTO>> getALl(List<Habit> habits) {
+        Map<Long, List<StatisticDTO>> result = new LinkedHashMap<>();
+
+        for (Habit habit : habits) {
+            Long habitId = habit.getId();
+            List<Statistic> statistics = getByHabitId(habitId);
+            int streak = calcStreak(habitId);
+            long totalDays = statistics.size();
+            long completedDays = statistics.stream().filter(stat -> Boolean.TRUE.equals(stat.getMarking())).count();
+            double percentile = totalDays > 0 ? ((double) completedDays / totalDays) * 100 : 0.0;
+
+            List<StatisticDTO> statisticDTOs = statistics.stream()
+                    .map(stat -> new StatisticDTO(
+                            stat.getDate(),
+                            stat.getMarking(),
+                            streak,
+                            percentile))
+                    .collect(Collectors.toList());
+
+            result.put(habitId, statisticDTOs);
+        }
+
+        return result;
     }
 
     public boolean check(Long id) {

@@ -26,12 +26,19 @@ import java.util.HashMap;
  * Create, update, getAll or delete habits.
  * */
 @Loggable
-@WebServlet(name="HabitServlet", urlPatterns = "/api/habit")
+@WebServlet(name="HabitServlet", urlPatterns = "/api/habit/*")
 public class HabitServlet extends HttpServlet {
-    private final HabitService habitService = new HabitService(new HabitDAO());
-    private final StatisticService statisticService = new StatisticService(new StatisticDAO());
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final HabitMapper habitMapper = HabitMapper.INSTANCE;
+    private final HabitService habitService;
+    private final StatisticService statisticService;
+    private final ObjectMapper objectMapper;
+    private final HabitMapper habitMapper;
+
+    public HabitServlet() {
+        this.habitService = new HabitService(new HabitDAO());
+        this.statisticService = new StatisticService(new StatisticDAO());
+        this.objectMapper = new ObjectMapper();
+        this.habitMapper = HabitMapper.INSTANCE;
+    }
 
     /**
      * Get the list of checked and unchecked habits.
@@ -47,20 +54,7 @@ public class HabitServlet extends HttpServlet {
             return;
         }
 
-        Map<String, List<HabitDTO>> result = new HashMap<>();
-        List<HabitDTO> canBeChecked = new ArrayList<>();
-        List<HabitDTO> cannotBeChecked = new ArrayList<>();
-
-        habits.forEach(habit -> {
-            if (statisticService.canBeChecked(habit)) {
-                canBeChecked.add(habitMapper.toDTO(habit));
-            } else {
-                cannotBeChecked.add(habitMapper.toDTO(habit));
-            }
-        });
-
-        result.put("canBeChecked", canBeChecked);
-        result.put("cannotBeChecked", cannotBeChecked);
+        Map<String, List<HabitDTO>> result = habitService.getCheckLists(habits, statisticService, habitMapper);
 
         String jsonResponse = objectMapper.writeValueAsString(result);
         resp.setContentType("application/json");

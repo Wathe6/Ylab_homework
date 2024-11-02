@@ -21,9 +21,15 @@ import java.io.IOException;
 @Loggable
 @WebServlet(name="AuthServlet", urlPatterns = "/api/auth/*")
 public class AuthServlet extends HttpServlet {
-    public AccountService accountService = new AccountService(new AccountDAO());
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    public AccountMapper accountMapper = AccountMapper.INSTANCE;
+    public AccountService accountService;
+    private final ObjectMapper objectMapper;
+    public AccountMapper accountMapper;
+
+    public AuthServlet() {
+        this.accountService = new AccountService(new AccountDAO());
+        this.objectMapper = new ObjectMapper();
+        this.accountMapper = AccountMapper.INSTANCE;
+    }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

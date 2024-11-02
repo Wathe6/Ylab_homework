@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 /**
  * Mapper for creating Statistic objects from resultSet.
@@ -17,6 +18,11 @@ public interface StatisticMapper extends BasicMapper<Statistic, StatisticDTO>
     StatisticMapper INSTANCE = Mappers.getMapper(StatisticMapper.class);
     default Statistic map(ResultSet rs) throws SQLException
     {
-        return new Statistic(rs);
+        Long id = rs.getLong("id");
+        Long habitId = rs.getLong("habit_id");
+        LocalDate date = rs.getDate("date").toLocalDate();
+        Boolean marking = rs.getBoolean("marking");
+
+        return new Statistic(id, habitId, date, marking);
     }
 }

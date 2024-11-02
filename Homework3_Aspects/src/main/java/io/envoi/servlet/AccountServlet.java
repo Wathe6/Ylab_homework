@@ -3,7 +3,6 @@ package io.envoi.servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.envoi.annotations.Loggable;
 import io.envoi.dao.AccountDAO;
-import io.envoi.mapper.AccountMapper;
 import io.envoi.model.Account;
 import io.envoi.model.dto.AccountDTO;
 import io.envoi.service.AccountService;
@@ -21,12 +20,18 @@ import java.io.IOException;
 @Loggable
 @WebServlet(name="AccountServlet", urlPatterns = "/api/account/*")
 public class AccountServlet extends HttpServlet {
-    private final AccountService accountService = new AccountService(new AccountDAO());
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final AccountService accountService;
+    private final ObjectMapper objectMapper;
+
+    public AccountServlet() {
+        this.accountService = new AccountService(new AccountDAO());
+        this.objectMapper = new ObjectMapper();
+    }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String action = req.getPathInfo();
+        Long accountId = Long.parseLong(req.getParameter("id"));
 
         if (action == null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid request");
@@ -34,16 +39,15 @@ public class AccountServlet extends HttpServlet {
         }
 
         switch (action) {
-            case "/changeEmail" -> changeEmail(req, resp);
-            case "/changeNickname" -> changeNickname(req, resp);
-            case "/deleteAccount" -> deleteAccount(req, resp);
+            case "/email" -> changeEmail(req, resp, accountId);
+            case "/nickname" -> changeNickname(req, resp, accountId);
             default -> resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Action not found");
         }
     }
 
-    private void changeEmail(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void changeEmail(HttpServletRequest req, HttpServletResponse resp, Long accountId) throws IOException {
         AccountDTO accountDTO = objectMapper.readValue(req.getReader(), AccountDTO.class);
-        Account account = accountService.get(accountDTO.id());
+        Account account = accountService.get(accountId);
 
         if (account == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Account not found");
@@ -65,9 +69,9 @@ public class AccountServlet extends HttpServlet {
     }
 
 
-    private void changeNickname(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void changeNickname(HttpServletRequest req, HttpServletResponse resp, Long accountId) throws IOException {
         AccountDTO accountDTO = objectMapper.readValue(req.getReader(), AccountDTO.class);
-        Account account = accountService.get(accountDTO.id());
+        Account account = accountService.get(accountId);
 
         if (account == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Account not found");
@@ -83,10 +87,11 @@ public class AccountServlet extends HttpServlet {
         }
     }
 
-    private void deleteAccount(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Long id = Long.parseLong(req.getReader().readLine());
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Long accountId = Long.parseLong(req.getParameter("id"));
 
-        if (accountService.delete(id)) {
+        if (accountService.delete(accountId)) {
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().write("{\"message\": \"Account deleted successfully\"}");
         } else {
