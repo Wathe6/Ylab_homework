@@ -67,7 +67,7 @@ public abstract class BasicDAO<T, DTO> {
     /**
      * Get a list of entities by any field
      */
-    public <V> List<T> getByField(String fieldName, V value) throws SQLException {
+    public <V> List<T> getByField(String fieldName, V value) {
         List<T> results = new ArrayList<>();
         String sql = String.format(Queries.SELECT_BY_FIELD, tableName, fieldName);
         try(PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -4,6 +4,7 @@ import io.envoi.mapper.StatisticMapper;
 import io.envoi.model.Statistic;
 import io.envoi.model.dto.StatisticDTO;
 import io.envoi.util.Queries;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 /**
  * Save, update, getLastDate operations with Statistic. GetAll, get(id), getByFields, delete, isTableEmpty are in BasicDAO.
  * */
+@Repository
 public class StatisticDAO extends BasicDAO<Statistic, StatisticDTO>
 {
     private static final String TABLENAME = "statistics";
@@ -77,7 +79,7 @@ public class StatisticDAO extends BasicDAO<Statistic, StatisticDTO>
             ps.setLong(1, habitId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    statistic = new Statistic(rs);
+                    statistic = mapper.map(rs);
                 }
             }
         } catch (SQLException e) {

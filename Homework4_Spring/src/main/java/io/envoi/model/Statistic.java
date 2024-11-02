@@ -25,10 +25,4 @@ public class Statistic
         this.date = localDate;
         this.marking = marking;
     }
-    public Statistic(ResultSet rs) throws SQLException {
-        this.id = rs.getLong("id");
-        this.habitId = rs.getLong("habit_id");
-        this.date = rs.getDate("date").toLocalDate();
-        this.marking = rs.getBoolean("marking");
-    }
 }

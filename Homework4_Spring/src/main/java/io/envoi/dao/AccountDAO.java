@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  * Save, update, emailExists operations with Account. GetAll, get(id), getByFields, delete, isTableEmpty are in BasicDAO.
  * */

@@ -1,5 +1,6 @@
 package io.envoi.mapper;
 
+import io.envoi.enums.Roles;
 import io.envoi.model.Account;
 import io.envoi.model.dto.AccountDTO;
 import org.mapstruct.Mapper;
@@ -15,6 +16,12 @@ import java.sql.SQLException;
 public interface AccountMapper extends BasicMapper<Account, AccountDTO> {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
     default Account map(ResultSet rs) throws SQLException {
-        return new Account(rs);
+        Long id = rs.getLong("id");
+        String email = rs.getString("email");
+        String password = rs.getString("password");
+        String name = rs.getString("name");
+        Roles role = Roles.valueOf(rs.getString("role").toUpperCase());
+
+        return new Account(id, email, password, name, role);
     }
 }

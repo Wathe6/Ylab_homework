@@ -3,9 +3,6 @@ package io.envoi.model;
 import io.envoi.enums.Roles;
 import lombok.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  * Account model for database.
  * */
@@ -26,15 +23,6 @@ public class Account
         this.password = password;
         this.name = name;
         this.role = role;
-    }
-
-    public Account(ResultSet rs) throws SQLException {
-        this.id = rs.getLong("id");
-        this.email = rs.getString("email");
-        this.password = rs.getString("password");
-        this.name = rs.getString("name");
-        String roleString = rs.getString("role").toUpperCase();
-        this.role = Roles.valueOf(roleString);
     }
 
     public String toString() {

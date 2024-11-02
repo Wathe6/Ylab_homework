@@ -4,14 +4,18 @@ import io.envoi.mapper.HabitMapper;
 import io.envoi.model.Habit;
 import io.envoi.model.dto.HabitDTO;
 import io.envoi.util.Queries;
+import org.eclipse.core.internal.resources.mapping.ShallowResourceMapping;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  * Save, update, habitExists operations with Habits. GetAll, get(id), getByFields, delete, isTableEmpty are in BasicDAO.
  * */
+@Repository
 public class HabitDAO extends BasicDAO<Habit, HabitDTO> {
     private static final String TABLENAME = "habits";
 
@@ -58,21 +62,23 @@ public class HabitDAO extends BasicDAO<Habit, HabitDTO> {
         return flag > 0;
     }
 
-    public boolean habitExists(Long accountId, String habitName) {
+    public Habit get(Long accountId, String habitName) {
         String sql = Queries.HABITS_EXISTS;
-        boolean exists = false;
+        Habit result = null;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, accountId);
             ps.setString(2, habitName);
 
-            ResultSet rs = ps.executeQuery();
-            // If rs contains records, then the habitName exists
-            exists = rs.next();
+            try(ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    result = mapper.map(rs);
+                }
+            }
         } catch (SQLException e) {
             System.out.println("Ошибка при проверке привычки: " + e.getMessage());
         }
 
-        return exists;
+        return result;
     }
 }
