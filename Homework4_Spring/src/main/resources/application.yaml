@@ -1,0 +1,6 @@
+database:
+  url: jdbc:postgresql://localhost:5430/postgres
+  username: postgres
+  password: psswd200
+  changeLogFile: /db/changelog/changelog.xml
+  initLogFile: /db/changelog/init.xml
